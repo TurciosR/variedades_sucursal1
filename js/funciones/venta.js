@@ -1,5 +1,6 @@
-var urlprocess = '';
-var sending = 0;
+let urlprocess = '';
+let sending = 0;
+let preventa_isActive = false;
 // theme: "classic",
 
 $(window).keydown(function(event) {
@@ -51,7 +52,14 @@ $(document).ready(function() {
 		{
 			if($(this).val()!="")
 			{
-      	addProductList(code, "C");
+        if(preventa_isActive == true){
+          swal("Preventa Cargada",
+            "Actualmente tiene cargada una preventa, no puede modificar los productos",
+             "warning");
+        }else{
+          addProductList(code, "C");
+        }
+      	
 			}
 			$(this).val("");
     }
@@ -84,7 +92,14 @@ $(document).ready(function() {
     var prod = prod0.split("|");
     var id_prod = prod[0];
     var descrip = prod[1];
-    addProductList(id_prod, "D");
+    if(preventa_isActive == true){
+      swal("Preventa Cargada",
+        "Actualmente tiene cargada una preventa, no puede modificar los productos",
+         "warning");
+    }else{
+      addProductList(id_prod, "D");
+    }
+    
   }
 
   var urlprocess = 'venta.php';
@@ -379,6 +394,7 @@ function cargar_ref() {
     data: "process=cargar_data&n_ref=" + n_ref + "&fecha=" + fecha,
     dataType: 'json',
     success: function(datax) {
+      preventa_isActive = true;
       var id_cliente = datax.id_cliente;
       var nombre_cliente = datax.nombre_cliente;
       var alias_tipodoc = datax.alias_tipodoc;
@@ -394,6 +410,11 @@ function cargar_ref() {
         c.trigger('change');
 
         $("#inventable").html(lista);
+        $("#inventable tr").each(function(){
+          $(this).find("#delprod").hide();
+          $(this).find("#cant").attr("readonly",true);
+          $(this).find("#precio_venta").attr("readonly",true);
+        });
         //console.log(lista);
         $("#id_empleado").val(datax.id_empleado);
         $("#vendedor").val(datax.id_empleado);
@@ -418,8 +439,12 @@ function cargar_ref() {
           decimalPlaces: 4
         });
 
-        $(".sel").select2();
-        $(".sel_r").select2();
+        $(".sel").select2({
+          disabled : true
+        });
+        $(".sel_r").select2({
+          disabled : true
+        });
 
         porc_retencion1 = datax.retencion1;
         porc_retencion10 = datax.retencion10;
@@ -437,11 +462,11 @@ function cargar_ref() {
           $("#borrar_preven").removeAttr('disabled');
           $("#preventa").removeAttr('disabled');
         },500);
-      } else {
+      } else { //=> Caso de que la preventa no haya sido success.
         /*
         display_notify(datax.typeinfo,datax.msg);
         */
-
+        preventa_isActive = false;
         $("#id_cliente").val("");
         $("#id_cliente").trigger('change');
 

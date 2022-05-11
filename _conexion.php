@@ -4,7 +4,8 @@ $password = "admin\$2020**.";
 $hostname = "localhost";
 $dbname = "variedades";*/
 $username = "root";
-$password = "admin$2022**.";
+//$password = "admin$2022**."; //server Mayo-2022
+$password = "admin$";
 $hostname = "localhost";
 $dbname = "variedades1";
 date_default_timezone_set('America/El_Salvador');
