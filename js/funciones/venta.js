@@ -59,7 +59,7 @@ $(document).ready(function() {
         }else{
           addProductList(code, "C");
         }
-      	
+
 			}
 			$(this).val("");
     }
@@ -99,7 +99,7 @@ $(document).ready(function() {
     }else{
       addProductList(id_prod, "D");
     }
-    
+
   }
 
   var urlprocess = 'venta.php';
@@ -550,7 +550,7 @@ $(document).on('keyup', '#cant', function() {
   a_cant = parseFloat(a_cant * unidad);
   a_cant = round(a_cant, 4);
 
-  //console.log(a_cant);
+  console.log(a_cant);
   a_asignar = 0;
 
   $('#inventable tr').each(function(index) {
@@ -1173,7 +1173,8 @@ function guardar_preventa() {
 }
 
 
-function senddata() {
+function senddata()
+{
   //Obtener los valores a guardar de cada item facturado
   var procces = $("#process").val();
   var i = 0;
@@ -1328,6 +1329,7 @@ function senddata() {
               $("#nomcli").attr('readOnly', false);
               $("#numdoc").attr('readOnly', false);
               $("#dircli").attr('readOnly', false);
+              $("#duicli").attr('readOnly', false);
               $("#numdoc").focus();
             } else {
               $("#efectivov").focus();
@@ -1400,6 +1402,20 @@ $(document).on("keyup", "#dircli", function(evt) {
       }
     } else {
       display_notify('Warning', 'Ingrese la direccion del cliente');
+    }
+  }
+
+});
+$(document).on("keyup", "#duicli", function(evt) {
+  if (evt.keyCode == 13) {
+    if ($(this).val() != "") {
+      if ($("#tipo_impresion").val() == 'COF') {
+        $("#duicli").focus();
+      } else {
+        $("#efectivov").focus();
+      }
+    } else {
+      display_notify('Warning', 'Ingrese el dui del cliente');
     }
   }
 
@@ -1648,17 +1664,21 @@ function imprimev() {
   var print = 'imprimir_fact';
   var tipo_impresion = $("#tipo_impresion").val();
   var tipo_impresiona = $("#tipo_impresion option:selected").text();
-  //console.log(tipo_impresiona);
   var fecha_fact = $("#fecha_fact").val();
   var direccion = $("#dircli").val();
 
   var id_factura = $("#id_factura").val();
+  var dui_cliente = $("#duicli").val();
   if (tipo_impresion == "TIK") {
     numero_factura_consumidor = '';
   } else {
     var numero_factura_consumidor = $("#numdoc").val();
   }
-  var dataString = 'process=' + print + '&numero_doc=' + numero_doc + '&tipo_impresion=' + tipo_impresion + '&num_doc_fact=' + id_factura + '&numero_factura_consumidor=' + numero_factura_consumidor + '&fecha_fact=' + fecha_fact;
+  var dataString = 'process=' + print + '&numero_doc=' + numero_doc
+  + '&tipo_impresion=' + tipo_impresion + '&num_doc_fact=' + id_factura
+  + '&numero_factura_consumidor=' + numero_factura_consumidor + '&fecha_fact='
+  + fecha_fact + '&dui_cliente=' + dui_cliente;
+  console.log(dataString);
   nombreape = $("#nomcli").val();
   if (tipo_impresion == "CCF") {
     nit = $("#nitcli").val(); //$('.modal-body #nit').val();
@@ -1804,6 +1824,8 @@ function imprimev() {
           });
       }
     });
+  }else{
+    console.log("Valor de Variable Imprimiendo: "+imprimiendo)
   }
 }
 

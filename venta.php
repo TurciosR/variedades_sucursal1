@@ -1,4 +1,7 @@
 <?php
+/*mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+ini_set('display_errors', 1);
+error_reporting(E_ALL);*/
 header("Cache-Control: no-cache, must-revalidate"); // HTTP 1.1
 header("Pragma: no-cache"); // HTTP 1.0
 header("Expires: Wed, 1 Jan 2020 00:00:00 GMT"); // Anytime in the past
@@ -567,7 +570,7 @@ span.select2-container--open {
                                 <td class='cell100 column30'><input type="text" id="tot_fdo" class="txt_box2"   value="" readOnly></td>
                               </tr>
                               <tr>
-                                <td class='cell100 column70 text-success'>NUM. DOCUMENTO: </td>
+                                <td class='cell100 column70 text-success'>NUM. FACTURA: </td>
                                 <td class='cell100 column30'><input type="text" id="numdoc" class="txt_box2"   value="" readOnly></td>
                               </tr>
                               <tr>
@@ -581,6 +584,10 @@ span.select2-container--open {
                               <tr>
                                 <td class='cell100 column70 text-success'>NIT: </td>
                                 <td class='cell100 column30'><input type="text" id="nitcli" class="txt_box2"    value="" readOnly></td>
+                              </tr>
+                              <tr>
+                                <td class='cell100 column70 text-success'>DUI: </td>
+                                <td class='cell100 column30'><input type="text" id="duicli" class="txt_box2"    value="" readOnly></td>
                               </tr>
                               <tr>
                                 <td class='cell100 column70 text-success'>NRC: </td>
@@ -767,21 +774,11 @@ function cargar_data()
 
 
 
-      $sql_ss=_query(
-        "SELECT presentacion.nombre, presentacion_producto.descripcion,
-        presentacion_producto.id_pp AS id_presentacion,presentacion_producto.unidad,
-        presentacion_producto.precio
-        FROM presentacion_producto
-        JOIN presentacion
-        ON presentacion.id_presentacion=presentacion_producto.id_presentacion
-        WHERE presentacion_producto.id_producto='$id_producto'
-        AND presentacion_producto.activo=1"
-      );
+      $sql_ss=_query("SELECT presentacion.nombre, presentacion_producto.descripcion,presentacion_producto.id_pp as id_presentacion,presentacion_producto.unidad,presentacion_producto.precio FROM presentacion_producto JOIN presentacion ON presentacion.id_presentacion=presentacion_producto.id_presentacion WHERE presentacion_producto.id_producto='$id_producto' AND presentacion_producto.activo=1 ");
       //echo "SELECT presentacion.nombre, presentacion_producto.descripcion,presentacion_producto.id_presentacion,presentacion_producto.unidad,presentacion_producto.precio FROM presentacion_producto JOIN presentacion ON presentacion.id_presentacion=presentacion_producto.presentacion WHERE presentacion_producto.id_producto='$id_producto' AND presentacion_producto.activo=1";
       $y = 0;
       $unidadp = 0;
       $preciop = 0;
-      //A peticion del cliente, dejar esto como read only
       $select_rank="<select class='sel_r form-control'>";
       $select="<select class='sel form-control'>";
       while ($rowx=_fetch_array($sql_ss)) {
@@ -851,48 +848,21 @@ function cargar_data()
       $iva=1+$iva;
 
       $descripcion.=$ubicacion;
-      /**
-       * Crear elementos HTML a insertar en la tabla de venta.
-       */
       $lista.= "<tr class='row100 head'>";
-      $lista.= "<td hidden class='cell100 column10 text-success id_pps'>
-        <input type='hidden' id='unidades' name='unidades'
-        value='" . $unidadq . "'>".$id_producto."</td>";
-      $lista.= "<td class='cell100 column30 text-success'>".$descripcion
-        ."<input type='hidden' id='exento' name='exento' value='".$exento."'>"."</td>";
+      $lista.= "<td hidden class='cell100 column10 text-success id_pps'><input type='hidden' id='unidades' name='unidades' value='" . $unidadq . "'>".$id_producto."</td>";
+      $lista.= "<td class='cell100 column30 text-success'>".$descripcion."<input type='hidden' id='exento' name='exento' value='".$exento."'>"."</td>";
 
 
-      $lista.= "<td class='cell100 column10 text-success'
-        id='cant_stock'>".$existencias."</td>";
-      $lista.= "<td class='cell100 column10 text-success'>
-        <input type='text'  class='form-control decimal $categoria cant'
-        id='cant' name='cant' value=".$cc." style='width:60px;'></td>";
-      //Para poner en read only estos dos select, se hace arriba, porque la propiedad
-      //debe de ir en los atributos de la etiqueta <select>
+      $lista.= "<td class='cell100 column10 text-success' id='cant_stock'>".$existencias."</td>";
+      $lista.= "<td class='cell100 column10 text-success'><input type='text'  class='form-control decimal $categoria cant' id='cant' name='cant' value=".$cc." style='width:60px;'></td>";
+
       $lista.= "<td class='cell100 column10 text-success preccs'>".$select."</td>";
-      $lista.= "<td hidden class='cell100 column10 text-success descp'>
-        <input type'text' id='dsd' value='" . $descripcionp. "' class='form-control' readonly>"."</td>";
-
+      $lista.= "<td hidden class='cell100 column10 text-success descp'>"."<input type'text' id='dsd' value='" . $descripcionp. "' class='form-control' readonly>"."</td>";
       $lista.= "<td class='cell100 column10 text-success rank_s'>".  $select_rank . "</td>";
+      $lista.= "<td class='cell100 column10 text-success'><input type='hidden'  id='precio_venta_inicial' name='precio_venta_inicial' value='".$precio_venta."' ><input type='hidden'  id='precio_sin_iva' name='precio_sin_iva' value='" . round(($precio_venta/$iva), 8, PHP_ROUND_HALF_DOWN) . "'><input type='text'  class='form-control decimal' id='precio_venta' name='precio_venta' value='".$precio_venta."' ></td>";
 
-      $lista.= "<td class='cell100 column10 text-success'>
-        <input type='hidden'  id='precio_venta_inicial' name='precio_venta_inicial'
-        value='".$precio_venta."' ><input type='hidden'  id='precio_sin_iva'
-        name='precio_sin_iva' value='" . round(($precio_venta/$iva), 8, PHP_ROUND_HALF_DOWN) . "'>
-        <input type='text'  class='form-control decimal'
-        id='precio_venta' name='precio_venta' value='".$precio_venta."'></td>";
-
-      $lista.= "<td class='ccell100 column10'>
-        <input type='hidden'  id='subtotal_fin' name='subtotal_fin' value='".$subtotal."'>
-        <input type='text'  class='decimal form-control' id='subtotal_mostrar'
-        name='subtotal_mostrar'  value='" . round($subtotal, 2) . "'readOnly>"."</td>";
-
-      $lista.= "<td class='cell100 column10 Delete text-center'>"
-        ."<input id='delprod' type='button' class='btn btn-danger fa'
-        value='&#xf1f8;'>"
-        .'<a data-toggle="modal" href="ver_imagen.php?id_producto='.$id_producto.'"
-        data-target="#viewProd" data-refresh="true" class="btn btn-primary btnViw fa">
-        <i class="fa fa-eye"></i></a>'."</td>";
+      $lista.= "<td class='ccell100 column10'>"."<input type='hidden'  id='subtotal_fin' name='subtotal_fin' value='".$subtotal."'>" . "<input type='text'  class='decimal form-control' id='subtotal_mostrar' name='subtotal_mostrar'  value='" . round($subtotal, 2) . "'readOnly>"."</td>";
+      $lista.= "<td class='cell100 column10 Delete text-center'><input id='delprod' type='button' class='btn btn-danger fa'  value='&#xf1f8;'>". '<a data-toggle="modal" href="ver_imagen.php?id_producto='.$id_producto.'"  data-target="#viewProd" data-refresh="true" class="btn btn-primary btnViw fa"><i class="fa fa-eye"></i></a>'."</td>";
       $lista.= "</tr>";
     }
     $select_vendedor="";
@@ -2350,6 +2320,7 @@ function imprimir_fact()
   $id_sucursal=$_SESSION['id_sucursal'];
   $numero_factura_consumidor = $_POST['numero_factura_consumidor'];
   $direccion=$_POST['direccion'];
+  $dui_cliente = $_POST['dui_cliente'];
   $fecha_fact=MD($_POST['fecha_fact']);
 
   $nombreape= $_POST['nombreape'];
@@ -2398,6 +2369,7 @@ function imprimir_fact()
         'num_fact_impresa'=>$numero_factura_consumidor,
         'nombre' => $nombreape,
         'direccion' => $direccion,
+        'dui_cliente' => $dui_cliente
       );
       $where_clause="id_factura='$id_factura'";
       $actualizar = _update($table_fact, $form_data_fact, $where_clause);
