@@ -578,6 +578,10 @@ span.select2-container--open {
                                 <td class='cell100 column30'><input type="text" id="nomcli" class="txt_box2"  value="" readOnly></td>
                               </tr>
                               <tr>
+                                <td class='cell100 column70 text-success'>DUI CLIENTE: </td>
+                                <td class='cell100 column30'><input type="text" id="duiCliente" class="txt_box2"  value=""></td>
+                              </tr>
+                              <tr>
                                 <td class='cell100 column70 text-success'>DIRECCION: </td>
                                 <td class='cell100 column30'><input type="text" id="dircli" class="txt_box2"  value="" readOnly></td>
                               </tr>
@@ -2314,10 +2318,11 @@ function insertar()
 
 function imprimir_fact()
 {
-  $numero_doc = $_POST['numero_doc'];
-  $tipo_impresion= $_POST['tipo_impresion'];
-  $id_factura= $_POST['num_doc_fact'];
-  $id_sucursal=$_SESSION['id_sucursal'];
+  $numero_doc     = $_POST['numero_doc'];
+  $tipo_impresion = $_POST['tipo_impresion'];
+  $id_factura     = $_POST['num_doc_fact'];
+  $id_sucursal    = $_SESSION['id_sucursal'];
+  $duiCliente     = (isset($_POST['duiCliente'])) ? $_POST['duiCliente'] : '';
   $numero_factura_consumidor = $_POST['numero_factura_consumidor'];
   $direccion=$_POST['direccion'];
   $dui_cliente = $_POST['dui_cliente'];
