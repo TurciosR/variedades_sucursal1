@@ -575,6 +575,10 @@ span.select2-container--open {
                                 <td class='cell100 column30'><input type="text" id="nomcli" class="txt_box2"  value="" readOnly></td>
                               </tr>
                               <tr>
+                                <td class='cell100 column70 text-success'>DUI CLIENTE: </td>
+                                <td class='cell100 column30'><input type="text" id="duiCliente" class="txt_box2"  value=""></td>
+                              </tr>
+                              <tr>
                                 <td class='cell100 column70 text-success'>DIRECCION: </td>
                                 <td class='cell100 column30'><input type="text" id="dircli" class="txt_box2"  value="" readOnly></td>
                               </tr>
@@ -2344,13 +2348,14 @@ function insertar()
 
 function imprimir_fact()
 {
-  $numero_doc = $_POST['numero_doc'];
-  $tipo_impresion= $_POST['tipo_impresion'];
-  $id_factura= $_POST['num_doc_fact'];
-  $id_sucursal=$_SESSION['id_sucursal'];
+  $numero_doc     = $_POST['numero_doc'];
+  $tipo_impresion = $_POST['tipo_impresion'];
+  $id_factura     = $_POST['num_doc_fact'];
+  $id_sucursal    = $_SESSION['id_sucursal'];
+  $duiCliente     = (isset($_POST['duiCliente'])) ? $_POST['duiCliente'] : '';
   $numero_factura_consumidor = $_POST['numero_factura_consumidor'];
-  $direccion=$_POST['direccion'];
-  $fecha_fact=MD($_POST['fecha_fact']);
+  $direccion  = $_POST['direccion'];
+  $fecha_fact = MD($_POST['fecha_fact']);
 
   $nombreape= $_POST['nombreape'];
   if ($tipo_impresion=='COF') {
@@ -2393,11 +2398,12 @@ function imprimir_fact()
     } else {
       # code...
       $form_data_fact = array(
-        'impresa' => '1',
-        'fecha' => $fecha_fact,
-        'num_fact_impresa'=>$numero_factura_consumidor,
-        'nombre' => $nombreape,
-        'direccion' => $direccion,
+        'impresa'     => '1',
+        'fecha'       => $fecha_fact,
+        'nombre'      => $nombreape,
+        'direccion'   => $direccion,
+        'dui_cliente' => $duiCliente,
+        'num_fact_impresa' => $numero_factura_consumidor
       );
       $where_clause="id_factura='$id_factura'";
       $actualizar = _update($table_fact, $form_data_fact, $where_clause);

@@ -147,16 +147,20 @@ function print1() {
 						shared_printer_pos:shared_printer_pos,
 						headers:headers,
 						footers:footers,
-
+						
 					})
 				} else {
-					$.post("http://"+dir_print+"printpos1.php", {
-						datosventa: datos.facturar,
-						efectivo: efectivo_fin,
-						cambio: cambio_fin,
-						headers:headers,
-						footers:footers,
-					}, function(data, status) {
+					$.post(
+						"http://"+dir_print+"printpos1.php",
+						{
+							datosventa: datos.facturar,
+							efectivo: efectivo_fin,
+							cambio: cambio_fin,
+							headers:headers,
+							footers:footers,
+							reimprimir: true
+						},
+					function(data, status) {
 
 						if (status != 'success') {
 							//alert("No Se envio la impresión " + data);

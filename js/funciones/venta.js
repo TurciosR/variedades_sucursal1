@@ -1361,17 +1361,30 @@ function senddata() {
 $(document).on("keyup", "#efectivo", function() {
   total_efectivo();
 });
+
 $(document).on("keyup", "#efectivov", function(evt) {
+  let alertMsg = "";
   if (evt.keyCode != 13) {
     total_efectivov();
   } else {
-    if (parseFloat($("#cambiov").val()) >= 0) {
+    let pagoEfectivo = parseFloat($("#cambiov").val());
+    let totalAPagar  = parseFloat($("#total_fdo").val());
+
+    if(isNaN(pagoEfectivo) || pagoEfectivo < totalAPagar){
+      alertMsg += "Ingrese un monto mayor o igual al facturado \n";
+    }
+    
+    if($("#tipo_impresion").val() == "COF"){
+      alertMsg += ($("#duiCliente").val() == "") ? "Ingrese el DUI del Cliente\n" : "" ;
+    }
+    if(alertMsg == ""){
       imprimev();
-    } else {
-      display_notify("Warning", "Ingrese un valor mayor o igual al total facturado");
+    }else{
+      display_notify("Warning", alertMsg);
     }
   }
 });
+
 $(document).on("keyup", "#numdoc", function(evt) {
   if (evt.keyCode == 13) {
     if ($(this).val() != "") {
@@ -1645,6 +1658,7 @@ function imprimev() {
   var imprimiendo = parseInt($('#imprimiendo').val());
   $('#imprimiendo').val(1);
   var numero_doc = $("#numdoc").val();
+  var duiCliente = $("#duiCliente").val();
   var print = 'imprimir_fact';
   var tipo_impresion = $("#tipo_impresion").val();
   var tipo_impresiona = $("#tipo_impresion option:selected").text();
@@ -1658,7 +1672,10 @@ function imprimev() {
   } else {
     var numero_factura_consumidor = $("#numdoc").val();
   }
-  var dataString = 'process=' + print + '&numero_doc=' + numero_doc + '&tipo_impresion=' + tipo_impresion + '&num_doc_fact=' + id_factura + '&numero_factura_consumidor=' + numero_factura_consumidor + '&fecha_fact=' + fecha_fact;
+  var dataString = 'process=' + print + '&numero_doc=' + numero_doc 
+    + '&tipo_impresion=' + tipo_impresion + '&num_doc_fact=' + id_factura 
+    + '&numero_factura_consumidor=' + numero_factura_consumidor
+    + '&fecha_fact=' + fecha_fact + '&duiCliente='+duiCliente;
   nombreape = $("#nomcli").val();
   if (tipo_impresion == "CCF") {
     nit = $("#nitcli").val(); //$('.modal-body #nit').val();

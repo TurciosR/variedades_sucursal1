@@ -86,7 +86,7 @@ function initial() {
 							<!--load datables estructure html-->
 							<header><h4 class="text-danger">Factura No: &nbsp;<?php echo $factnum;  ?></h4>
 							<h4  class='text-navy'>Fecha:<?php echo $fecha;  ?>&nbsp;
-							Cliente:<?php echo $cliente; ?></h4>
+							Cliente: <?php echo $cliente; ?></h4>
 							</header>
 							<section>
 								<div class="table-responsive m-t">

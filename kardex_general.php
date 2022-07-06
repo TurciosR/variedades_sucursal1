@@ -1,4 +1,6 @@
 <?php
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+ini_set('display_errors', 1);
 error_reporting(E_ERROR | E_PARSE);
 require("_core.php");
 require("num2letras.php");
@@ -30,7 +32,7 @@ $sql2 = _query("SELECT dep.* FROM departamento as dep WHERE dep.id_departamento=
 $row2 = _fetch_array($sql2);
 $departamento = $row2["nombre_departamento"];
 
-$sql3 = _query("SELECT mun.* FROM municipio as mun WHERE dep.id_municipio='$muni'");
+$sql3 = _query("SELECT mun.* FROM municipio as mun WHERE mun.id_municipio='$muni'");
 $row3 = _fetch_array($sql3);
 $municipio = $row3["nombre_municipio"];
 
