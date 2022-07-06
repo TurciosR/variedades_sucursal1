@@ -219,8 +219,8 @@ function initial()
                         <label>Tipo Impresi&oacuten</label>
                         <select name='tipo_impresion' id='tipo_impresion' class='select form-control usage'>
                           <option value='TIK' selected>TICKET</option>
-                          <option value='COF'>FACTURA</option>
-                          <option value='CCF'>CREDITO FISCAL</option>
+                          <!--<option value='COF'>FACTURA</option>
+                          <option value='CCF'>CREDITO FISCAL</option>-->
                         </select>
                       </div>
                     </div>

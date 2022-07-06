@@ -289,8 +289,8 @@ span.select2-container--open {
                      <option value='TIK' selected>COBRO</option>
                     -->
                   <option selected value='TIK'>TICKET</option>
-                  <option value='COF'>FACTURA</option>
-                  <option value='CCF'>CREDITO FISCAL</option>
+                  <!--<option value='COF'>FACTURA</option>
+                  <option value='CCF'>CREDITO FISCAL</option>-->
                 </select>
               </div>
             </div>
@@ -905,18 +905,18 @@ function cargar_data()
 
     if ("COF"==$alias_tipodoc) {
       # code...
-      $select_tipo_impresion.="<option value='COF' selected>FACTURA CONSUMIDOR FINAL</option>";
+      //$select_tipo_impresion.="<option value='COF' selected>FACTURA CONSUMIDOR FINAL</option>";
     } else {
       # code...
-      $select_tipo_impresion.="<option value='COF'>FACTURA CONSUMIDOR FINAL</option>";
+      //$select_tipo_impresion.="<option value='COF'>FACTURA CONSUMIDOR FINAL</option>";
     }
 
     if ("CCF"==$alias_tipodoc) {
       # code...
-      $select_tipo_impresion.="<option value='CCF' selected  >CREDITO FISCAL</option>";
+      //$select_tipo_impresion.="<option value='CCF' selected  >CREDITO FISCAL</option>";
     } else {
       # code...
-      $select_tipo_impresion.="<option value='CCF'>CREDITO FISCAL</option>";
+      //$select_tipo_impresion.="<option value='CCF'>CREDITO FISCAL</option>";
     }
 
 
