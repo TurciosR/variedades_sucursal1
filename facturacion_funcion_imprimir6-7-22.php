@@ -228,9 +228,6 @@ function print_ticket($id_factura)
 	*/
 	$info_factura.="|".$cadena_salida_txt."\n";
 	$info_factura.="|"."VENDEDOR: ".$vendedor;
-	$info_factura.="|".$total_value_fin;
-	$info_factura.="|".$num_fact;
-	$info_factura.="|"."FECHA: ".$fecha_fact." ".hora($hora);
 	//$esp=espacios_izq(" ",30);PRODUCTIS
 	// retornar valor generado en funcion
 
