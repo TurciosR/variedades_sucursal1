@@ -1,5 +1,12 @@
 <?php
-
+/**
+ * This file is part of the OpenPyme1.
+ *
+ * (c) Open Solution Systems <operaciones@tumundolaboral.com.sv>
+ *
+ * For the full copyright and license information, please refere to LICENSE file
+ * that has been distributed with this source code.
+ */
 function print_ticket($id_factura)
 {
 	$id_sucursal=$_SESSION['id_sucursal'];

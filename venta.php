@@ -1,7 +1,16 @@
 <?php
+/**
+ * This file is part of the OpenPyme1.
+ *
+ * (c) Open Solution Systems <operaciones@tumundolaboral.com.sv>
+ *
+ * For the full copyright and license information, please refere to LICENSE file
+ * that has been distributed with this source code.
+ */
 /*mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 ini_set('display_errors', 1);
 error_reporting(E_ALL);*/
+
 header("Cache-Control: no-cache, must-revalidate"); // HTTP 1.1
 header("Pragma: no-cache"); // HTTP 1.0
 header("Expires: Wed, 1 Jan 2020 00:00:00 GMT"); // Anytime in the past

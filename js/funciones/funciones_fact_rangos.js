@@ -147,7 +147,7 @@ function print1() {
 						shared_printer_pos:shared_printer_pos,
 						headers:headers,
 						footers:footers,
-						
+
 					})
 				} else {
 					$.post(
